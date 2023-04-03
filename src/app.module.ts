@@ -4,6 +4,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { User, UserSchema, UserDao } from "dao/user.dao";
 import { UserWeChat, UserWeChatSchema, UserWeChatDao } from "dao/wechat.dao";
 
+import { LogRpc } from "service/log.rpc";
 import { UserService } from "service/user.service";
 import { WxClientService } from "service/wxClient.service";
 import { WxMpService } from "service/wxMp.service";
@@ -18,6 +19,6 @@ import { UserController } from "./app.controller";
         ]),
     ],
     controllers: [UserController],
-    providers: [UserDao, UserWeChatDao, UserService, WxClientService, WxMpService],
+    providers: [UserDao, UserWeChatDao, LogRpc, UserService, WxClientService, WxMpService],
 })
 export class AppModule {}

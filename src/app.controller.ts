@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, SetMetadata, UseGuards } from "@nestjs/common";
 import { sign } from "jsonwebtoken";
 
-import { PATH_USER_WECHAT, User, UserWeChat, UserInfo } from "qqlx-core";
+import { PATH_USER_WECHAT, User, UserWeChat, UserInfo, ENUM_LOG } from "qqlx-core";
 import { postUserWeChatDto, postUserWeChatRes, getUserWeChatDto, getUserWeChatRes, patchUserWeChatDto, patchUserWeChatRes } from "qqlx-core";
 import { UserDTO } from "qqlx-sdk";
 
@@ -12,16 +12,21 @@ import { WxClientService } from "service/wxClient.service";
 import { WxMpService } from "service/wxMp.service";
 import { UserService } from "service/user.service";
 
+import { LogRpc } from "service/log.rpc";
+
 @Controller(PATH_USER_WECHAT)
 @UseGuards(UserGuard)
 export class UserController {
     constructor(
+        private readonly LogRpc: LogRpc,
         private readonly UserDao: UserDao,
         private readonly UserWeChatDao: UserWeChatDao,
         private readonly WxClientService: WxClientService,
         private readonly WxMpService: WxMpService,
         private readonly UserService: UserService
-    ) {}
+    ) {
+        this.LogRpc.log(ENUM_LOG.ALL, "/user", "123");
+    }
 
     @Post()
     async login(@Body("dto") dto: postUserWeChatDto): Promise<postUserWeChatRes> {

@@ -7,7 +7,7 @@
     "license": "MIT",
     "scripts": {
         "build": "nest build",
-        "start": "nest start"
+        "dev": "nest start --watch"
     },
     "dependencies": {
         "@nestjs/common": "^9.0.0",
@@ -20,7 +20,7 @@
         "mongoose": "^6.8.3",
         "qqlx-cdk": "^0.0.7",
         "qqlx-core": "^1.0.15",
-        "qqlx-sdk": "^0.0.13",
+        "qqlx-sdk": "^0.0.16",
         "reflect-metadata": "^0.1.13",
         "rxjs": "^7.2.0"
     },

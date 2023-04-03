@@ -5,7 +5,7 @@ import { Response as RestResponse } from "qqlx-cdk";
 import { ENUM_LOG, MAP_ENUM_ERROR_CODE } from "qqlx-core";
 import { UserDTO } from "qqlx-sdk";
 
-import { LogRpc } from "rpc/log";
+import { LogRpc } from "service/log.rpc";
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {

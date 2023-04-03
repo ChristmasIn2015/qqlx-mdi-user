@@ -15,10 +15,10 @@ export class LogRpc {
         });
     }
 
-    log(type: ENUM_LOG, path: string, chain: string, content: Record<string, any> = {}) {
+    async log(type: ENUM_LOG, path: string, chain: string, content: Record<string, any> = {}) {
         const schema = { type, path, chain, json: JSON.stringify(content) } as Log;
 
         const dto: postLogDto = { schema };
-        this.client.send("postLog", dto); // async
+        this.client.emit("postLog", dto).toPromise(); // event async
     }
 }
