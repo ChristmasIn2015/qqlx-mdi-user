@@ -6,27 +6,25 @@ import { postUserWeChatDto, postUserWeChatRes, getUserWeChatDto, getUserWeChatRe
 import { UserDTO } from "qqlx-sdk";
 
 import { UserGuard } from "global/user.guard";
-import { UserDao } from "dao/user.dao";
-import { UserWeChatDao } from "dao/wechat.dao";
-import { WxClientService } from "service/wxClient.service";
-import { WxMpService } from "service/wxMp.service";
-import { UserService } from "service/user.service";
+import { UserDao } from "dao/user";
+import { UserWeChatDao } from "dao/wechat";
+import { WxClientService } from "src/user/service.wxClient";
+import { WxMpService } from "src/user/service.wxMp";
+import { UserService } from "src/user/service";
 
-import { LogRpc } from "service/log.rpc";
+import { LogRemote } from "remote/log";
 
 @Controller(PATH_USER_WECHAT)
 @UseGuards(UserGuard)
 export class UserController {
     constructor(
-        private readonly LogRpc: LogRpc,
+        private readonly LogRemote: LogRemote,
         private readonly UserDao: UserDao,
         private readonly UserWeChatDao: UserWeChatDao,
         private readonly WxClientService: WxClientService,
         private readonly WxMpService: WxMpService,
         private readonly UserService: UserService
-    ) {
-        this.LogRpc.log(ENUM_LOG.ALL, "/user", "123");
-    }
+    ) {}
 
     @Post()
     async login(@Body("dto") dto: postUserWeChatDto): Promise<postUserWeChatRes> {

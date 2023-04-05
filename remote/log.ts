@@ -2,10 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { ClientProxy, ClientProxyFactory, Transport } from "@nestjs/microservices";
 
 import { Log, ENUM_LOG } from "qqlx-core";
-import { HOST_MID_LOG, PORT_MID_LOG, postLogDto, postLogRes } from "qqlx-sdk";
+import { HOST_MID_LOG, PORT_MID_LOG, postLogDto, postLogRes, chargeRpcResponse } from "qqlx-sdk";
 
 @Injectable()
-export class LogRpc {
+export class LogRemote {
     private readonly client: ClientProxy;
 
     constructor() {
@@ -15,7 +15,7 @@ export class LogRpc {
         });
     }
 
-    async log(type: ENUM_LOG, path: string, chain: string, content: Record<string, any> = {}) {
+    log(type: ENUM_LOG, path: string, chain: string, content: Record<string, any> = {}) {
         const schema = { type, path, chain, json: JSON.stringify(content) } as Log;
 
         const dto: postLogDto = { schema };

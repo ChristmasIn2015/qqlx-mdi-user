@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 
 import { ENUM_ERROR_CODE } from "qqlx-core";
 
-import { UserDao } from "dao/user.dao";
-import { UserWeChatDao } from "dao/wechat.dao";
-import { UserService } from "./user.service";
+import { UserDao } from "dao/user";
+import { UserWeChatDao } from "dao/wechat";
+import { UserService } from "./service";
 
 @Injectable()
 export class WxClientService {

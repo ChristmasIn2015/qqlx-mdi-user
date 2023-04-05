@@ -1,24 +1,26 @@
 import { Catch, ExceptionFilter, ArgumentsHost, HttpException } from "@nestjs/common";
 import { Request, Response } from "express";
+import { randomUUID } from "crypto";
 
 import { Response as RestResponse } from "qqlx-cdk";
 import { ENUM_LOG, MAP_ENUM_ERROR_CODE } from "qqlx-core";
 import { UserDTO } from "qqlx-sdk";
 
-import { LogRpc } from "service/log.rpc";
+import { LogRemote } from "remote/log";
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
     constructor(
         //
-        private readonly LogRpc: LogRpc
+        private readonly LogRemote: LogRemote
     ) {}
 
     catch(exception, host: ArgumentsHost) {
         const context = host.switchToHttp();
         const request = context.getRequest<Request>();
-        const UserDTO: UserDTO = request.body.UserDTO;
         const response = context.getResponse<Response>();
+
+        const chain: string = (request.body.UserDTO || request.body.BrandDTO)?.chain || randomUUID();
 
         // 业务错误
         const isErrorCode = typeof exception === "number";
@@ -28,7 +30,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
                 data: null,
                 message: MAP_ENUM_ERROR_CODE.get(exception)?.text || `未知错误：${exception}`,
             };
-            this.LogRpc.log(ENUM_LOG.ERROR, request.path, UserDTO.chain, rest); // async
+            this.LogRemote.log(ENUM_LOG.ERROR, request.path, chain, rest); // async
             response.json(rest);
         }
         // 其他错误
@@ -38,7 +40,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
                 data: null,
                 message: exception?.message,
             };
-            this.LogRpc.log(ENUM_LOG.ERROR, request.path, UserDTO.chain, rest); // async
+            this.LogRemote.log(ENUM_LOG.ERROR, request.path, chain, rest); // async
             response.json(rest);
         }
     }

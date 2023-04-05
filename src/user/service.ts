@@ -5,8 +5,8 @@ import { Injectable } from "@nestjs/common";
 import { verify } from "jsonwebtoken";
 import { ENUM_ERROR_CODE, User, UserInfo, UserWeChat } from "qqlx-core";
 
-import { UserDao } from "dao/user.dao";
-import { UserWeChatDao } from "dao/wechat.dao";
+import { UserDao } from "dao/user";
+import { UserWeChatDao } from "dao/wechat";
 
 @Injectable()
 export class UserService {
@@ -21,6 +21,7 @@ export class UserService {
     }
 
     async getUserInfo(option: { jwtString?: string; userId?: string }): Promise<UserInfo> {
+        // 从jwt中翻译
         if (option.jwtString) {
             const jwtInfo = verify(option.jwtString, this.CONFIG_JSON_FILE_JSON.JWT_KEY);
             const { unionId } = jwtInfo;
@@ -37,7 +38,9 @@ export class UserService {
                 nickname: userWeChat.nickname,
                 avator: userWeChat.avator,
             };
-        } else if (option.userId) {
+        }
+        // 直接翻译用户Id
+        else if (option.userId) {
             const userWeChat: UserWeChat = await this.UserWeChatDao.findOne(option.userId, "userId");
             const user: User = await this.UserDao.findOne(userWeChat?.userId);
             if (!user) throw ENUM_ERROR_CODE.NOT_FOUND_USER;
@@ -53,7 +56,7 @@ export class UserService {
         else throw ENUM_ERROR_CODE.UNAUTHORIZED_USER;
     }
 
-    async getUserInfos(userIds: string[]): Promise<UserInfo[]> {
+    async getUserInfoList(userIds: string[]): Promise<UserInfo[]> {
         const userWeChatList: UserWeChat[] = await this.UserWeChatDao.query({
             userId: { $in: userIds },
         });

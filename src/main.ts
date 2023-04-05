@@ -6,7 +6,7 @@ import { PORT_REST_USER, HOST_MID_USER, PORT_MID_USER } from "qqlx-sdk";
 
 import { GlobalExceptionFilter } from "global/exception.filter";
 import { GlobalResponseInterceptor } from "global/response.interceptor";
-import { LogRpc } from "service/log.rpc";
+import { LogRemote } from "remote/log";
 
 async function bootstrap() {
     // 创建基于 TCP 协议的微服务
@@ -18,8 +18,8 @@ async function bootstrap() {
 
     // 启动 RESTful API
     const app = await NestFactory.create(AppModule);
-    app.useGlobalFilters(new GlobalExceptionFilter(new LogRpc()));
-    app.useGlobalInterceptors(new GlobalResponseInterceptor(new LogRpc()));
+    app.useGlobalFilters(new GlobalExceptionFilter(new LogRemote()));
+    app.useGlobalInterceptors(new GlobalResponseInterceptor(new LogRemote()));
     await app.listen(PORT_REST_USER);
 }
 bootstrap();

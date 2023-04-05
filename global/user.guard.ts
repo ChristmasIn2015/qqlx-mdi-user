@@ -6,17 +6,15 @@ import { Request } from "express";
 
 import { UserDTO } from "qqlx-sdk";
 
-import { UserDao } from "dao/user.dao";
-import { UserWeChatDao } from "dao/wechat.dao";
-import { UserService } from "service/user.service";
+import { UserDao } from "dao/user";
+import { UserWeChatDao } from "dao/wechat";
+import { UserService } from "src/user/service";
 
 @Injectable()
 export class UserGuard implements CanActivate {
     constructor(
         //
-        private reflector: Reflector,
-        private readonly UserDao: UserDao,
-        private readonly UserWeChatDao: UserWeChatDao,
+        private readonly reflector: Reflector,
         private readonly UserService: UserService
     ) {}
 
@@ -29,7 +27,7 @@ export class UserGuard implements CanActivate {
         const UserDTO: UserDTO = { chain: randomUUID(), userInfo };
         request.body.UserDTO = UserDTO;
 
-        const demand = this.reflector.get("Logined", context.getHandler());
+        const demands = this.reflector.get("Logined", context.getHandler());
         return true;
     }
 }

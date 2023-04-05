@@ -1,14 +1,14 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 
-import { User, UserSchema, UserDao } from "dao/user.dao";
-import { UserWeChat, UserWeChatSchema, UserWeChatDao } from "dao/wechat.dao";
+import { User, UserSchema, UserDao } from "dao/user";
+import { UserWeChat, UserWeChatSchema, UserWeChatDao } from "dao/wechat";
 
-import { LogRpc } from "service/log.rpc";
-import { UserService } from "service/user.service";
-import { WxClientService } from "service/wxClient.service";
-import { WxMpService } from "service/wxMp.service";
-import { UserController } from "./app.controller";
+import { LogRemote } from "remote/log";
+import { UserService } from "src/user/service";
+import { WxClientService } from "src/user/service.wxClient";
+import { WxMpService } from "src/user/service.wxMp";
+import { UserController } from "./user/controller.rest";
 
 @Module({
     imports: [
@@ -19,6 +19,6 @@ import { UserController } from "./app.controller";
         ]),
     ],
     controllers: [UserController],
-    providers: [UserDao, UserWeChatDao, LogRpc, UserService, WxClientService, WxMpService],
+    providers: [UserDao, UserWeChatDao, LogRemote, UserService, WxClientService, WxMpService],
 })
 export class AppModule {}
