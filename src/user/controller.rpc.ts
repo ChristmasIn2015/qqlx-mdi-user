@@ -9,7 +9,7 @@ import { UserWeChatDao } from "dao/wechat";
 import { UserService } from "src/user/service";
 
 @Controller()
-export class LogRemote {
+export class UserRpc {
     constructor(
         //
         private readonly UserService: UserService
@@ -18,7 +18,7 @@ export class LogRemote {
     @MessagePattern("getUserInfo") // 需要客户端 send 并返回值
     @ToResponse()
     async getUserInfo(dto: getUserInfoDto) {
-        const userInfo = await this.UserService.getUserInfo({ jwtString: dto.jwtString });
+        const userInfo = await this.UserService.getUserInfo(dto);
         return userInfo;
     }
 

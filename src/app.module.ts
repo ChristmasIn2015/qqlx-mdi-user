@@ -9,6 +9,7 @@ import { UserService } from "src/user/service";
 import { WxClientService } from "src/user/service.wxClient";
 import { WxMpService } from "src/user/service.wxMp";
 import { UserController } from "./user/controller.rest";
+import { UserRpc } from "./user/controller.rpc";
 
 @Module({
     imports: [
@@ -18,7 +19,7 @@ import { UserController } from "./user/controller.rest";
             { name: UserWeChat.name, schema: UserWeChatSchema },
         ]),
     ],
-    controllers: [UserController],
+    controllers: [UserController, UserRpc],
     providers: [UserDao, UserWeChatDao, LogRemote, UserService, WxClientService, WxMpService],
 })
 export class AppModule {}

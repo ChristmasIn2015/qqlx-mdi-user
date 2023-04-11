@@ -68,7 +68,7 @@ export class UserService {
                 userId: user._id,
                 phone: user.phone,
                 nickname: wechat?.nickname,
-                avator: wechat?.nickname,
+                avator: wechat?.avator,
             };
         });
     }

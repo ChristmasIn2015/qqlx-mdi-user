@@ -15,7 +15,6 @@ import { UserService } from "src/user/service";
 import { LogRemote } from "remote/log";
 
 @Controller(PATH_USER_WECHAT)
-@UseGuards(UserGuard)
 export class UserController {
     constructor(
         private readonly LogRemote: LogRemote,
@@ -112,13 +111,13 @@ export class UserController {
     }
 
     @Post("/get")
-    @SetMetadata("Logined", null)
+    @UseGuards(UserGuard)
     async getUserWeChat(@Body("dto") dto: getUserWeChatDto, @Body("UserDTO") UserDTO: UserDTO): Promise<getUserWeChatRes> {
         return UserDTO.userInfo;
     }
 
     @Patch()
-    @SetMetadata("Logined", null)
+    @UseGuards(UserGuard)
     async patchUser(@Body("dto") dto: patchUserWeChatDto, @Body("UserDTO") UserDTO: UserDTO) {
         // 修改昵称或是头像
         const match = { userId: UserDTO.userInfo.userId };

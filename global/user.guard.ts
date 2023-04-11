@@ -26,8 +26,6 @@ export class UserGuard implements CanActivate {
 
         const UserDTO: UserDTO = { chain: randomUUID(), userInfo };
         request.body.UserDTO = UserDTO;
-
-        const demands = this.reflector.get("Logined", context.getHandler());
         return true;
     }
 }
